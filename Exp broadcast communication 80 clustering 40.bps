@@ -1,0 +1,65 @@
+#!/bin/bash
+
+
+
+### Set the job name
+
+#PBS -N wes_Competing_ants
+
+
+### Specify the PI group for this job
+
+### List of PI groups available to each user can be found with "va" command
+
+#PBS -W group_list=dornhaus
+
+
+
+### Set the queue for this job as windfall or standard (adjust ### and #)
+
+###PBS -q standard
+#PBS -q windfall
+
+
+
+### Request email when job begins and ends - commented out in this case
+
+#PBS -m bea
+
+
+### Specify email address to use for notification - commented out in this case
+
+#PBS -M wesjohnson@email.arizona.edu
+
+
+
+
+### Set the number of nodes, cores and memory that will be used for this job
+
+#PBS -l select=1:ncpus=12:mem=12gb:mpiprocs=12
+#PBS -l place=free:shared
+#PBS -l walltime=10:00:00
+
+### Load required modules/libraries if needed (openmpi example)
+
+### Use "module avail" command to list all available modules
+
+### NOTE: /usr/share/Modules/init/csh -CAPITAL M in Modules
+module load java/1.8.0
+module load netlogo/6/6.0.0
+
+
+### set directory for job execution, ~netid = home directory path
+cd ~wesjohnson/netlogoExp1
+
+
+### run your executable program with begin and end date and time output
+date
+###org.nlogo.headless.Main
+java -Xmx4096m -Dfile.encoding=UFT-8 -cp /cm/shared/uaapps/netlogo/6.0.0/app/netlogo-6.0.0.jar \
+org.nlogo.headless.Main \
+    --model "competing ants v1_0 AD better experiments.nlogo" \
+      --experiment "Exp broadcast communication 80 clustering 40" \
+        --table "Exp broadcast communication 80 clustering 40(1).csv" \
+            --threads 12
+date
